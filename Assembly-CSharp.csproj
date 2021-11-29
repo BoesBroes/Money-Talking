@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1A86F96A-11D6-9550-F67F-4CB6EECDBEB0}</ProjectGuid>
+    <ProjectGuid>{CC899445-68D2-F29B-794E-2E1261173325}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Scripts\Managers\StatsManager.cs" />
+    <Compile Include="Assets\Scripts\Hub\FamilyAI.cs" />
+    <Compile Include="Assets\Scripts\Hub\FamilyMember.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
