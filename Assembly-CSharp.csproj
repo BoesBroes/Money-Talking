@@ -60,6 +60,8 @@
     <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Scripts\Hub\FamilyAI.cs" />
     <Compile Include="Assets\Scripts\Managers\StatsManager.cs" />
+    <Compile Include="Assets\Stylized Astronaut\Character\ThirdPersonCamera.cs" />
+    <Compile Include="Assets\Stylized Astronaut\Character\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
