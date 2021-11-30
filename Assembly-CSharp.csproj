@@ -56,10 +56,10 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\StatsManager.cs" />
-    <Compile Include="Assets\Scripts\Hub\FamilyAI.cs" />
     <Compile Include="Assets\Scripts\Hub\FamilyMember.cs" />
+    <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\Hub\FamilyAI.cs" />
+    <Compile Include="Assets\Scripts\Managers\StatsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
