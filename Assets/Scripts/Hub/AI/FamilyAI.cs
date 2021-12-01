@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class FamilyAI : MonoBehaviour
 {
@@ -143,7 +144,17 @@ public class FamilyAI : MonoBehaviour
         if (!member.GetComponent<FamilyMember>().moving && !member.GetComponent<FamilyMember>().reachedDestination)
         {
             Debug.Log("Bed start");
-            if (bedCount < beds.Length)
+
+            //if already at location
+
+            if (beds.Contains(member.GetComponent<FamilyMember>().lastDestination))
+            {
+                Debug.Log("Already there");
+                member.GetComponent<FamilyMember>().reachedDestination = true;
+            }
+            
+            
+            else if (bedCount < beds.Length)
             {
                 if (!beds[bedCount].GetComponent<Occupation>().occupied)
                 {
@@ -158,6 +169,8 @@ public class FamilyAI : MonoBehaviour
             }
             else
             {
+                bedCount = 0;
+
                 //Set the characters current action to idle so it can chose a new action
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
 
@@ -190,7 +203,16 @@ public class FamilyAI : MonoBehaviour
         {
             Debug.Log("TV Start");
 
-            if (couchCount < couches.Length)
+            //if already at location
+
+            if (couches.Contains(member.GetComponent<FamilyMember>().lastDestination))
+            {
+                Debug.Log("Already there");
+                member.GetComponent<FamilyMember>().reachedDestination = true;
+            }
+            
+
+            else if (couchCount < couches.Length)
             {
                 if (!couches[couchCount].GetComponent<Occupation>().occupied)
                 {
@@ -206,6 +228,8 @@ public class FamilyAI : MonoBehaviour
 
             else
             {
+                couchCount = 0;
+
                 //Set the characters current action to idle so it can chose a new action
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
 

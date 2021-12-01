@@ -47,16 +47,24 @@ public class FamilyMember : MonoBehaviour
     public bool moving = false; 
 
     private NavMeshAgent agent;
+    private NavMeshObstacle obstacle;
     private Animator anim;
     private CharacterController controller;
 
     private Transform currentDestination;
     private GameObject currentDestinationObject;
 
+    [HideInInspector]
+    public GameObject lastDestination;
+
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
+        obstacle = this.GetComponent<NavMeshObstacle>();
         controller = GetComponent<CharacterController>();
+
+        agent.enabled = false;
+
         anim = gameObject.GetComponentInChildren<Animator>();
     }
 
@@ -64,6 +72,15 @@ public class FamilyMember : MonoBehaviour
     {
         moving = true;
         reachedDestination = false;
+
+        if (lastDestination)
+        {
+            lastDestination.GetComponent<Occupation>().occupied = false;
+        }
+
+        obstacle.enabled = false;
+        agent.enabled = true;
+
         currentDestination = destination.transform;
 
         currentDestinationObject = destination;
@@ -75,16 +92,24 @@ public class FamilyMember : MonoBehaviour
 
     IEnumerator WaitUntilReached()
     {
-        while ((Mathf.Abs((currentDestination.position.y - this.transform.position.y)) > destinationOffset && Mathf.Abs((currentDestination.position.x - this.transform.position.x)) > destinationOffset))
+        while (Mathf.Abs((currentDestination.position.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((currentDestination.position.x - this.transform.position.x)) > destinationOffset)
         {
             anim.SetInteger("AnimationPar", 1);
             yield return null;
         }
+
+        Debug.Log((Mathf.Abs((currentDestination.position.z - this.transform.position.z))));
+        Debug.Log((Mathf.Abs((currentDestination.position.x - this.transform.position.x))));
+
+
         anim.SetInteger("AnimationPar", 0);
 
-        currentDestinationObject.GetComponent<Occupation>().occupied = false;
+        lastDestination = currentDestinationObject;
 
         reachedDestination = true;
         moving = false;
+
+        agent.enabled = false;
+        obstacle.enabled = true;
     }
 }
