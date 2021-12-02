@@ -98,10 +98,6 @@ public class FamilyMember : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log((Mathf.Abs((currentDestination.position.z - this.transform.position.z))));
-        Debug.Log((Mathf.Abs((currentDestination.position.x - this.transform.position.x))));
-
-
         anim.SetInteger("AnimationPar", 0);
 
         lastDestination = currentDestinationObject;

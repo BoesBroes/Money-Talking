@@ -12,7 +12,7 @@ public class Store : MonoBehaviour
     public GameObject storeOptions;
     private GameObject[] storeType;
 
-
+    public Camera storeCamera;
     public void Start()
     {
         storeType = new GameObject[this.transform.childCount];
@@ -20,7 +20,26 @@ public class Store : MonoBehaviour
         for (int i = 0; i < this.transform.childCount; i++)
         {
             storeType[i] = this.transform.GetChild(i).gameObject;
-            storeType[i].SetActive(false);
+            //storeType[i].SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            Debug.DrawRay(storeCamera.transform.position, ray.direction * 6, Color.yellow);
+
+            if (Physics.Raycast(storeCamera.transform.position, ray.direction * 6, out hit))
+            {
+                Debug.Log(hit.collider.name);
+                Debug.Log(hit.collider.GetComponentInParent<Options>().storeType);
+            }
+
         }
     }
 
@@ -28,7 +47,7 @@ public class Store : MonoBehaviour
     {
         if(storeType.Contains(currentStore))
         {
-            currentStore.SetActive(true);
+            //currentStore.SetActive(true);
         }
     }
 
@@ -39,4 +58,5 @@ public class Store : MonoBehaviour
             storeType[i].SetActive(false);
         }
     }
+
 }
