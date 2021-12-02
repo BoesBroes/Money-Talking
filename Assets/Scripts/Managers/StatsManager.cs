@@ -5,13 +5,26 @@ using UnityEngine.UI;
 
 public class StatsManager : MonoBehaviour
 {
+    public static StatsManager statsManager;
+
     public Slider energyBar;
     public Slider happinessBar;
 
     public Image energyFill;
     public Image happinessFill;
 
+    public GameObject family;
+
     //TODO: probably store the stats when moving to other scene
+
+    void Start()
+    {
+        if(statsManager == null)
+        {
+            statsManager = this; 
+        }
+        family.GetComponent<FamilyAI>().SpawnFamily();
+    }
 
     public void ChangeEnergy(float change)
     {
