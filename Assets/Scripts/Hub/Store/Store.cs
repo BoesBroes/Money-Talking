@@ -5,6 +5,11 @@ using System.Linq;
 
 public class Store : MonoBehaviour
 {
+    [Header("Customization Objects")]
+    public GameObject changeTV;
+    //add more
+
+    public GameObject storeOptions;
     private GameObject[] storeType;
 
 
