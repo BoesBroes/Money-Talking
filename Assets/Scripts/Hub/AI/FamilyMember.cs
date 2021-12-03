@@ -23,6 +23,7 @@ public class FamilyMember : MonoBehaviour
         Resting,
         Idle,
         Talk,
+        Cook,
         Nothing
     }
 
