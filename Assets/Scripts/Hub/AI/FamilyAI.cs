@@ -27,9 +27,11 @@ public class FamilyAI : MonoBehaviour
     private float happiness;
     private float energy;
 
+    //could make these public for ez changes perhaps
     private float activityGain = .2f;
+    private float activityDrain = -.2f; //drain should not be affected by money?
 
-    private float memberCountModifier = 1;
+    private float memberCountModifier;
     private float currencyModifier = 1;
 
     private bool activityDone = false;
@@ -39,17 +41,11 @@ public class FamilyAI : MonoBehaviour
     public void SpawnFamily()
     {
         //probably _actually_ spawn family here?
-        happiness = StatsManager.statsManager.happinessBar.value;
-        energy = StatsManager.statsManager.energyBar.value;
+        GetStats();
 
         //set size and assign each family member and modifiers
-        familyMember = new GameObject[this.transform.childCount];
-        memberCountModifier = memberCountModifier / this.transform.childCount;
-
-        for (int i = 0; i < this.transform.childCount; i++)
-        {
-            familyMember[i] = this.transform.GetChild(i).gameObject;
-        }
+        memberCountModifier = 0;
+        SetModifiers();
 
         //do the same but for each spot
         couches = new GameObject[couch.transform.childCount];
@@ -97,6 +93,11 @@ public class FamilyAI : MonoBehaviour
                     familyMember[i].GetComponent<FamilyMember>().takingAction = true;
                     WatchTV(familyMember[i]);
                     break;
+
+                case FamilyMember.Action.Cook:
+                    familyMember[i].GetComponent<FamilyMember>().takingAction = true;
+                    Cook(familyMember[i]);
+                    break;
             }
         }
     }
@@ -104,8 +105,9 @@ public class FamilyAI : MonoBehaviour
     //more will be added
     private FamilyMember.Action ChooseAction(GameObject member)
     {
-        //Random number generated for use later for the AI random decision making
+        //Random number generated for use later for the AI random decision making and get current family stats
         int randomNumber = Random.Range(0, 100);
+        GetStats();
 
         if(happiness * 100 < 50)
         {
@@ -121,7 +123,7 @@ public class FamilyAI : MonoBehaviour
         }
 
         //just for testings sake
-        if (happiness * 100 > 50)
+        if (happiness * 100 > 50 && energy * 100 > 50)
         {
             if (randomNumber < 50)
             {
@@ -185,7 +187,9 @@ public class FamilyAI : MonoBehaviour
 
             if (activityDone)
             {
-                StatsManager.statsManager.ChangeEnergy(activityGain * memberCountModifier); 
+                SetModifiers();
+
+                StatsManager.statsManager.ChangeEnergy(activityGain * (memberCountModifier * currencyModifier)); 
 
                 //Set the characters current action to idle so it can chose a new action
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
@@ -246,7 +250,9 @@ public class FamilyAI : MonoBehaviour
             {
                 Debug.Log("TV Finish");
 
-                StatsManager.statsManager.ChangeHappiness(activityGain * memberCountModifier); 
+                SetModifiers();
+
+                StatsManager.statsManager.ChangeHappiness(activityGain * (memberCountModifier * currencyModifier)); 
 
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
 
@@ -254,7 +260,68 @@ public class FamilyAI : MonoBehaviour
 
                 familyMember[0].GetComponent<FamilyMember>().takingAction = false;
             }
-            
+        }
+    }
+
+    private void Cook(GameObject member)
+    {
+        if (!member.GetComponent<FamilyMember>().moving && !member.GetComponent<FamilyMember>().reachedDestination)
+        {
+            Debug.Log("Kitchen");
+
+            //if already at location
+
+            if (kitchens.Contains(member.GetComponent<FamilyMember>().lastDestination))
+            {
+                Debug.Log("Already there");
+                member.GetComponent<FamilyMember>().reachedDestination = true;
+            }
+
+
+            else if (kitchenCount < kitchens.Length)
+            {
+                if (!kitchens[kitchenCount].GetComponent<Occupation>().occupied)
+                {
+                    member.GetComponent<FamilyMember>().MoveToAction(kitchens[kitchenCount]);
+                    kitchens[kitchenCount].GetComponent<Occupation>().occupied = true;
+                    couchCount = 0;
+                }
+                else
+                {
+                    kitchenCount++;
+                }
+            }
+
+            else
+            {
+                kitchenCount = 0;
+
+                //Set the characters current action to idle so it can chose a new action
+                member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
+
+                familyMember[0].GetComponent<FamilyMember>().takingAction = false;
+                Debug.Log("all occupied:(");
+            }
+        }
+
+        else if (member.GetComponent<FamilyMember>().reachedDestination)
+        {
+            ActivityTimer(member);
+
+            if (activityDone)
+            {
+                Debug.Log("TV Finish");
+
+                SetModifiers();
+
+                StatsManager.statsManager.ChangeHappiness(activityDrain * memberCountModifier); 
+
+                member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
+
+                member.GetComponent<FamilyMember>().reachedDestination = false;
+
+                familyMember[0].GetComponent<FamilyMember>().takingAction = false;
+            }
         }
     }
 
@@ -273,5 +340,32 @@ public class FamilyAI : MonoBehaviour
         }
     }
 
+    public void GetStats()
+    {
+        happiness = StatsManager.statsManager.happinessBar.value;
+        energy = StatsManager.statsManager.energyBar.value;
+    }
+    public void SetModifiers()
+    {
+        if(memberCountModifier == 0)
+        {
+            familyMember = new GameObject[this.transform.childCount];
+            memberCountModifier = memberCountModifier / this.transform.childCount;
 
+            for (int i = 0; i < this.transform.childCount; i++)
+            {
+                familyMember[i] = this.transform.GetChild(i).gameObject;
+            }
+        }
+        
+        currencyModifier = StatsManager.statsManager.money / 500;
+        if (currencyModifier < 0.25f)
+        {
+            currencyModifier = 0.25f;
+        }
+        else if (currencyModifier > 2)
+        {
+            currencyModifier = 2;
+        }
+    }
 }

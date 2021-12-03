@@ -514,7 +514,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 695797905}
+  - {fileID: 588027095}
   m_Father: {fileID: 784834560}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -736,7 +736,7 @@ MonoBehaviour:
   energyFill: {fileID: 874263754}
   happinessFill: {fileID: 2029452690}
   family: {fileID: 846442569}
-  money: 100
+  money: 1000
   moneyText: {fileID: 1602431731}
 --- !u!224 &110764349
 RectTransform:
@@ -3445,6 +3445,37 @@ Transform:
   m_Father: {fileID: 169717498}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &588027094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588027095}
+  m_Layer: 0
+  m_Name: TVParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &588027095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588027094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 695797905}
+  m_Father: {fileID: 45334839}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &600801186
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,11 +4142,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695797904}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -6.04, y: -0.508, z: -9.211}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 45334839}
+  m_Father: {fileID: 588027095}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &695797906
@@ -4352,6 +4383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: -300
+  positionOffset: 0
 --- !u!1 &779509629
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,6 +5632,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1272299975}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: ActivateCurrentStore
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1554390934}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1086242758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6732,6 +6776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: -200
+  positionOffset: 0
 --- !u!1 &1311623099
 GameObject:
   m_ObjectHideFlags: 0
@@ -6854,8 +6899,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 1272299975}
   hubPanel: {fileID: 1272809013}
-  changeTV: {fileID: 695797904}
+  changeTV: {fileID: 588027094}
   storeOptions: {fileID: 811275631}
+  temporaryObject: {fileID: 0}
   storeCamera: {fileID: 1203149156}
 --- !u!1 &1366046476
 GameObject:
@@ -7786,7 +7832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1554390935
 Transform:
   m_ObjectHideFlags: 0
@@ -8271,6 +8317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: -100
+  positionOffset: 0
 --- !u!1 &1665200549
 GameObject:
   m_ObjectHideFlags: 0
