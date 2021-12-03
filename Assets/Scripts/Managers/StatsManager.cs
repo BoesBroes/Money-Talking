@@ -15,6 +15,11 @@ public class StatsManager : MonoBehaviour
 
     public GameObject family;
 
+    public int money;
+
+    public Text moneyText;
+
+    private string moneyString;
     //TODO: probably store the stats when moving to other scene
 
     void Start()
@@ -24,6 +29,9 @@ public class StatsManager : MonoBehaviour
             statsManager = this; 
         }
         family.GetComponent<FamilyAI>().SpawnFamily();
+
+        moneyString = money.ToString();
+        moneyText.text = ("$" + moneyString);
     }
 
     public void ChangeEnergy(float change)
@@ -36,6 +44,13 @@ public class StatsManager : MonoBehaviour
     {
         happinessBar.value += change;
         ChangeColor(happinessFill, happinessBar.value);
+    }
+
+    public void ChangeMoney(int valueChange)
+    {
+        money += valueChange;
+        moneyString = money.ToString();
+        moneyText.text = ("$" + moneyString);
     }
 
     private void ChangeColor(Image sliderFill, float value)

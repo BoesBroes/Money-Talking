@@ -36,6 +36,11 @@ public class Menu : MonoBehaviour
         currentOpenPanel = nextPanel;
     }
 
+    public void ActivateCurrentStore(GameObject currentStore)
+    {
+        currentStore.SetActive(true);
+    }
+
     private void CloseAllPanels()
     {
         foreach (GameObject panel in allPanels)
