@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class Store : MonoBehaviour
@@ -18,13 +19,23 @@ public class Store : MonoBehaviour
     public GameObject temporaryObject;
     private Vector3 temporaryVector;
     public Camera storeCamera;
-    public void Start()
+
+    public Text[] costs;
+    public GameObject costsParent;
+    void Start()
     {
         storeType = new GameObject[this.transform.childCount];
+        costs = new Text[costsParent.transform.childCount];
+        Debug.Log(costsParent.transform.childCount);
 
         for (int i = 0; i < storeOptions.transform.childCount; i++)
         {
             storeType[i] = storeOptions.transform.GetChild(i).gameObject;
+        }
+
+        for (int i = 0; i < costsParent.transform.childCount; i++)
+        {
+            costs[i] = costsParent.transform.GetChild(i).GetComponent<Text>();
         }
     }
 
@@ -38,7 +49,7 @@ public class Store : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             //Debug.DrawRay(storeCamera.transform.position, ray.direction * 6, Color.yellow);
-
+            
             if (Physics.Raycast(storeCamera.transform.position, ray.direction * 6, out hit))
             {
                 //subtract costs
@@ -58,7 +69,23 @@ public class Store : MonoBehaviour
 
                 menu.SwitchPanel(hubPanel);
             }
+        }
+    }
 
+    public void ChangeCosts(GameObject currentObject)
+    {
+        //run this only once
+        costs = new Text[costsParent.transform.childCount];
+
+        for (int i = 0; i < costsParent.transform.childCount; i++)
+        {
+            costs[i] = costsParent.transform.GetChild(i).GetComponent<Text>();
+        }
+
+        for (int i = 0; i < currentObject.transform.childCount; i++)
+        {
+            string temp = currentObject.transform.GetChild(i).GetComponent<Cost>().cost.ToString();
+            costs[i].text = temp;
         }
     }
 }

@@ -125,9 +125,9 @@ public class FamilyAI : MonoBehaviour
         //just for testings sake
         if (happiness * 100 > 50 && energy * 100 > 50)
         {
-            if (randomNumber < 50)
+            if (randomNumber < 75)
             {
-                return FamilyMember.Action.WatchTV;
+                return FamilyMember.Action.Cook;
             }
 
             if (randomNumber > 50)

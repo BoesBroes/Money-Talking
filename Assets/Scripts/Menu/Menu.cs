@@ -10,6 +10,8 @@ public class Menu : MonoBehaviour
     public GameObject startPanel;
     private GameObject currentOpenPanel;
 
+    public GameObject store;
+
     public void Start()
     {
         CloseAllPanels();
@@ -39,6 +41,7 @@ public class Menu : MonoBehaviour
     public void ActivateCurrentStore(GameObject currentStore)
     {
         currentStore.SetActive(true);
+        store.GetComponent<Store>().ChangeCosts(currentStore);
     }
 
     private void CloseAllPanels()
