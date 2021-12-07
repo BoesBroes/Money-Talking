@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class FamilyMember : MonoBehaviour
 {
+    public float energy;
+    public float happiness;
 
     public enum Mood
     {

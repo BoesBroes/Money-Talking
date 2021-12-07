@@ -19,31 +19,58 @@ public class StatsManager : MonoBehaviour
 
     public Text moneyText;
 
+    private float storeHappiness;
+    private float storeEnergy;
+    private bool stored;
+
+    private GameObject lastCollided;
     private string moneyString;
     //TODO: probably store the stats when moving to other scene
 
     void Start()
     {
-        if(statsManager == null)
+        if (statsManager == null)
         {
-            statsManager = this; 
+            statsManager = this;
         }
         family.GetComponent<FamilyAI>().SpawnFamily();
 
         moneyString = money.ToString();
         moneyText.text = ("$" + moneyString);
+
+        stored = false;
     }
 
     public void ChangeEnergy(float change)
     {
-        energyBar.value += change;
-        ChangeColor(energyFill, energyBar.value);
+        Debug.Log(change);
+        if (!stored)
+        {
+            energyBar.value += change;
+            ChangeColor(energyFill, energyBar.value);
+        }
+        else
+        {
+            energyBar.value = lastCollided.GetComponent<FamilyMember>().energy;
+            ChangeColor(energyFill, energyBar.value);
+            storeEnergy += change;
+        }
     }
 
     public void ChangeHappiness(float change)
     {
-        happinessBar.value += change;
-        ChangeColor(happinessFill, happinessBar.value);
+        Debug.Log(change);
+        if (!stored)
+        {
+            happinessBar.value += change;
+            ChangeColor(happinessFill, happinessBar.value);
+        }
+        else
+        {
+            happinessBar.value = lastCollided.GetComponent<FamilyMember>().happiness;
+            ChangeColor(happinessFill, happinessBar.value);
+            storeHappiness += change;
+        }
     }
 
     public void ChangeMoney(int valueChange)
@@ -59,4 +86,48 @@ public class StatsManager : MonoBehaviour
 
         sliderFill.color = statsColor;
     }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //raycast from camera but at other cameras position (real funky but it works)
+            RaycastHit hit;
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+            if (Physics.Raycast(Camera.main.transform.position, ray.direction * 10, out hit))
+            {
+                if(hit.collider.GetComponent<FamilyMember>())
+                {
+                    lastCollided = hit.collider.gameObject;
+                    if(!stored)
+                    {
+                        stored = true;
+                        storeEnergy = energyBar.value;
+                        storeHappiness = happinessBar.value;
+                    }
+                    energyBar.value = hit.collider.GetComponent<FamilyMember>().energy;
+                    happinessBar.value = hit.collider.GetComponent<FamilyMember>().happiness;
+
+                    ChangeColor(energyFill, energyBar.value);
+                    ChangeColor(happinessFill, happinessBar.value);
+                }
+                else
+                {
+                    if(stored)
+                    {
+                        stored = false;
+                        energyBar.value = storeEnergy;
+                        happinessBar.value = storeHappiness;
+
+                        ChangeColor(energyFill, energyBar.value);
+                        ChangeColor(happinessFill, happinessBar.value);
+                    }
+                }
+            }
+        }
+    }
+
 }

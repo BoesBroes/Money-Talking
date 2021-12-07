@@ -41,10 +41,9 @@ public class FamilyAI : MonoBehaviour
     public void SpawnFamily()
     {
         //probably _actually_ spawn family here?
-        GetStats();
+        //GetStats();
 
         //set size and assign each family member and modifiers
-        memberCountModifier = 0;
         SetModifiers();
 
         //do the same but for each spot
@@ -107,7 +106,7 @@ public class FamilyAI : MonoBehaviour
     {
         //Random number generated for use later for the AI random decision making and get current family stats
         int randomNumber = Random.Range(0, 100);
-        GetStats();
+        GetStats(member);
 
         if(happiness * 100 < 50)
         {
@@ -189,6 +188,8 @@ public class FamilyAI : MonoBehaviour
             {
                 SetModifiers();
 
+                //function this
+                member.GetComponent<FamilyMember>().energy += activityGain * currencyModifier;
                 StatsManager.statsManager.ChangeEnergy(activityGain * (memberCountModifier * currencyModifier)); 
 
                 //Set the characters current action to idle so it can chose a new action
@@ -252,6 +253,7 @@ public class FamilyAI : MonoBehaviour
 
                 SetModifiers();
 
+                member.GetComponent<FamilyMember>().happiness += activityGain * currencyModifier;
                 StatsManager.statsManager.ChangeHappiness(activityGain * (memberCountModifier * currencyModifier)); 
 
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
@@ -314,6 +316,7 @@ public class FamilyAI : MonoBehaviour
 
                 SetModifiers();
 
+                member.GetComponent<FamilyMember>().happiness += activityDrain;
                 StatsManager.statsManager.ChangeHappiness(activityDrain * memberCountModifier); 
 
                 member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
@@ -340,17 +343,18 @@ public class FamilyAI : MonoBehaviour
         }
     }
 
-    public void GetStats()
+    public void GetStats(GameObject member)
     {
-        happiness = StatsManager.statsManager.happinessBar.value;
-        energy = StatsManager.statsManager.energyBar.value;
+        happiness = member.GetComponent<FamilyMember>().happiness;
+        energy = member.GetComponent<FamilyMember>().energy;
     }
     public void SetModifiers()
     {
         if(memberCountModifier == 0)
         {
             familyMember = new GameObject[this.transform.childCount];
-            memberCountModifier = memberCountModifier / this.transform.childCount;
+            memberCountModifier = 1f / this.transform.childCount;
+            Debug.Log(memberCountModifier);
 
             for (int i = 0; i < this.transform.childCount; i++)
             {
