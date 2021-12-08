@@ -21,8 +21,9 @@ public class CalendarDate : MonoBehaviour
         eventChanger.GetComponent<ChangeEvent>().SetDate(date);
     }
 
-    public void AddEvent()
+    public void StartEvent()
     {
-        //add event
+        //if event start event
+        //else chill
     }
 }
