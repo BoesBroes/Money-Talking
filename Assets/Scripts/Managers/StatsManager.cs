@@ -7,12 +7,15 @@ public class StatsManager : MonoBehaviour
 {
     public static StatsManager statsManager;
 
+    [Header("stats")]
     public Slider energyBar;
     public Slider happinessBar;
 
+    [Header("sliders")]
     public Image energyFill;
     public Image happinessFill;
 
+    [Header("FamilyStuff")]
     public GameObject family;
 
     public int money;
@@ -25,7 +28,10 @@ public class StatsManager : MonoBehaviour
 
     private GameObject lastCollided;
     private string moneyString;
-    //TODO: probably store the stats when moving to other scene
+
+    [Header("CalendarStuff")]
+    public GameObject calendar;
+    //TODO: probably store the stats when moving to other scene (most stats that need to be stored are probably here?)
 
     void Start()
     {
