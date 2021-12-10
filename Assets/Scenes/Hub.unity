@@ -14127,7 +14127,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Uncool Event
+  m_Text: 'Event
 
 '
 --- !u!1 &1488615893199276849
@@ -14585,7 +14585,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Cool Event
+  m_Text: 'Other event
 
 '
 --- !u!1 &4343533789565512769
@@ -15131,7 +15131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ' Event
+  m_Text: 'Yet another event
 
 '
 --- !u!114 &7897224282758278373
