@@ -118,7 +118,8 @@ public class Calendar : MonoBehaviour
         {
             currentCalendar.SetActive(false);
             storedMonth[storeCount] = currentCalendar;
-            if(storeCount < 1)
+            changeEvent.GetComponent<ChangeEvent>().calendarMonth[storeCount +1] = storedMonth[storeCount];
+            if (storeCount < 1)
             {
                 storeCount++;
             }
@@ -135,6 +136,11 @@ public class Calendar : MonoBehaviour
         currentMonth.SetActive(true);
         storedMonth[0] = storedMonth[1];
 
+        //do the same for ChangeEvent (make this a for loop)
+        changeEvent.GetComponent<ChangeEvent>().calendarMonth[0] = currentMonth;
+        changeEvent.GetComponent<ChangeEvent>().calendarMonth[1] = storedMonth[0];
+        changeEvent.GetComponent<ChangeEvent>().calendarMonth[2] = storedMonth[1];
+
         //create new month
         CreateMonth(false);
 
@@ -142,6 +148,7 @@ public class Calendar : MonoBehaviour
         if(showCount >= 1)
         {
             showCount--;
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(showCount);
         }
     }
 
@@ -159,10 +166,11 @@ public class Calendar : MonoBehaviour
 
     public void ShowNextMonth()
     {
+        //yes there are better ways to do this lmao
         showCount++;
         if(showCount == 1)
         {
-            changeEvent.GetComponent<ChangeEvent>().SetMonth(1);
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(showCount);
             currentMonth.SetActive(false);
             storedMonth[1].SetActive(false);
             storedMonth[0].SetActive(true);
@@ -170,6 +178,7 @@ public class Calendar : MonoBehaviour
 
         else if (showCount == 2)
         {
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(showCount);
             storedMonth[0].SetActive(false);
             storedMonth[1].SetActive(true);
         }
@@ -186,12 +195,14 @@ public class Calendar : MonoBehaviour
         showCount--;
         if (showCount == 0)
         {
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(showCount);
             storedMonth[0].SetActive(false);
             currentMonth.SetActive(true);
         }
 
         else if (showCount == 1)
         {
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(showCount);
             currentMonth.SetActive(false);
             storedMonth[1].SetActive(false);
             storedMonth[0].SetActive(true);

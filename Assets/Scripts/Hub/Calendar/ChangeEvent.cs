@@ -22,13 +22,12 @@ public class ChangeEvent : MonoBehaviour
 
     public void SetMonth(int month)
     {
-        currentDate = month;
+        currentMonth = month;
+        Debug.Log("what");
     }
 
     public void ChangeDate(string setEvent)
     {
         calendarMonth[currentMonth].transform.GetChild(currentDate).GetComponent<CalendarDate>().eventText.text = setEvent;
-        //Debug.Log(calendar.GetComponent<Calendar>().currentMonth.name)
-        //calendar.GetComponent<Calendar>().currentMonth.SetActive(true);
     }
 }
