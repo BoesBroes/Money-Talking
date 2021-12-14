@@ -7,6 +7,7 @@ using System.Linq;
 public class Calendar : MonoBehaviour
 {
     public static Calendar calendar;
+    private Calendar _calendar;
 
     public GameObject calendarParent;
     public GameObject calendarObject;
@@ -32,30 +33,40 @@ public class Calendar : MonoBehaviour
     private int dayCount;
 
     private bool inHub;
-
+    private bool ignoreStart;
     void Awake()
     {
         if(calendar == null)
         {
+            ignoreStart = false;
             calendar = this;
             DontDestroyOnLoad(this);
         }
         else
         {
-            Destroy(gameObject);
+            ignoreStart = true;
+            //_calendar = gameObject.AddComponent<Calendar>();
+            Reactivate();
+
+            Destroy(calendar.gameObject);
+            calendar = this;
+            DontDestroyOnLoad(gameObject);
         }        
     }
 
     void Start()
     {
-        inHub = true;
+        if(!ignoreStart)
+        {
+            inHub = true;
 
-        storedMonth = new GameObject[2];
-        //no one looks further ahead than 3 months
-        CreateMonth(true);
-        CreateMonth(false);
-        CreateMonth(false);
-        //make more months to plan in advance?
+            storedMonth = new GameObject[2];
+            //no one looks further ahead than 3 months
+            CreateMonth(true);
+            CreateMonth(false);
+            CreateMonth(false);
+            //make more months to plan in advance?
+        }
     }
 
     // Update is called once per frame
@@ -160,6 +171,13 @@ public class Calendar : MonoBehaviour
         if(LevelManager.levelManager.scenes.Contains(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text))
         {
             inHub = false;
+            currentMonth.transform.SetParent(transform);
+
+            //here is a for loop that should be used in movemonth lmao
+            for(int i = 0; i < storedMonth.Length; i++)
+            {
+                storedMonth[i].transform.SetParent(transform);
+            }
             LevelManager.levelManager.ChangeLevel(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text);
         }
     }
@@ -212,6 +230,17 @@ public class Calendar : MonoBehaviour
         {
             showCount = 0;
             Debug.Log("out of months");
+        }
+    }
+
+    public void Reactivate()
+    {
+        currentMonth.transform.SetParent(currentCalendar.transform, true);
+
+        //here is a for loop that should be used in movemonth lmao
+        for (int i = 0; i < storedMonth.Length; i++)
+        {
+            storedMonth[i].transform.SetParent(currentCalendar.transform, true);
         }
     }
 }

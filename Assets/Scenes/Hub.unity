@@ -2080,10 +2080,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   calendarParent: {fileID: 1906618361}
-  calendar: {fileID: 2613625679119319208, guid: 5ebcef2a84f03b24da6040ca74d1abbd, type: 3}
+  calendarObject: {fileID: 2613625679119319208, guid: 5ebcef2a84f03b24da6040ca74d1abbd, type: 3}
   date: {fileID: 2274773151290944557}
   changeEvent: {fileID: 5843701975237045424}
+  currentMonth: {fileID: 0}
   storedMonth: []
+  showCount: 0
   dayTime: 0.5
   timeModifier: 1
 --- !u!4 &291817570
@@ -14874,7 +14876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34a503e4eaaa094ca941e115539b73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  calendar: {fileID: 0}
+  calendarMonth: []
 --- !u!114 &6185989186669041681
 MonoBehaviour:
   m_ObjectHideFlags: 0
