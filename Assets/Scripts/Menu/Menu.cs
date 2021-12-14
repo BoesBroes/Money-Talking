@@ -38,6 +38,11 @@ public class Menu : MonoBehaviour
         currentOpenPanel = nextPanel;
     }
 
+    public void ChangeLevel(string level)
+    {
+        LevelManager.levelManager.ChangeLevel(level);
+    }
+
     public void ActivateCurrentStore(GameObject currentStore)
     {
         currentStore.SetActive(true);

@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Calendar : MonoBehaviour
 {
+    public static Calendar calendar;
+
     public GameObject calendarParent;
-    public GameObject calendar;
+    public GameObject calendarObject;
     public GameObject date;
 
     public GameObject changeEvent;
@@ -15,18 +18,38 @@ public class Calendar : MonoBehaviour
     private GameObject[] temporaryObject;
     private Vector3 temporaryPosition;
 
-    private GameObject currentMonth; //current month ingame
+    public GameObject currentMonth; //current month ingame
+
     public GameObject[] storedMonth;
     private int storeCount;
-    private int showCount;
+
+    [HideInInspector]
+    public int showCount;
 
     public float dayTime;
     public float timeModifier; //modifier that should affect speed of family(stats/movement)
     private float currentTime;
     private int dayCount;
-    // Start is called before the first frame update
+
+    private bool inHub;
+
+    void Awake()
+    {
+        if(calendar == null)
+        {
+            calendar = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }        
+    }
+
     void Start()
     {
+        inHub = true;
+
         storedMonth = new GameObject[2];
         //no one looks further ahead than 3 months
         CreateMonth(true);
@@ -38,7 +61,10 @@ public class Calendar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DateTimer();
+        if(inHub)
+        {
+            DateTimer();
+        }
     }
 
     private void DateTimer()
@@ -55,8 +81,7 @@ public class Calendar : MonoBehaviour
             }
             else
             {
-                currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventImage.color = Color.red;
-                currentMonth.transform.GetChild(dayCount - 1).GetComponent<CalendarDate>().eventImage.color = Color.white;
+                CheckDay();
             }
         }
     }    
@@ -65,9 +90,7 @@ public class Calendar : MonoBehaviour
     {
         dayCount = 0;
 
-        currentCalendar = Instantiate(calendar, calendarParent.transform);
-
-        changeEvent.GetComponent<ChangeEvent>().calendar = currentCalendar;
+        currentCalendar = Instantiate(calendarObject, calendarParent.transform);
 
         temporaryObject = new GameObject[currentCalendar.transform.childCount];
         for (int i = 0; i < currentCalendar.transform.childCount; i++)
@@ -89,6 +112,7 @@ public class Calendar : MonoBehaviour
         {
             temporaryObject[0].GetComponent<CalendarDate>().eventImage.color = Color.red;
             currentMonth = currentCalendar;
+            changeEvent.GetComponent<ChangeEvent>().calendarMonth[0] = currentMonth;
         }
         else
         {
@@ -121,11 +145,24 @@ public class Calendar : MonoBehaviour
         }
     }
 
+    private void CheckDay()
+    {
+        //set nice colors
+        currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventImage.color = Color.red;
+        currentMonth.transform.GetChild(dayCount - 1).GetComponent<CalendarDate>().eventImage.color = Color.white;
+        if(LevelManager.levelManager.scenes.Contains(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text))
+        {
+            inHub = false;
+            LevelManager.levelManager.ChangeLevel(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text);
+        }
+    }
+
     public void ShowNextMonth()
     {
         showCount++;
         if(showCount == 1)
         {
+            changeEvent.GetComponent<ChangeEvent>().SetMonth(1);
             currentMonth.SetActive(false);
             storedMonth[1].SetActive(false);
             storedMonth[0].SetActive(true);

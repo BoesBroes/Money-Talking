@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 
 public class LevelManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class LevelManager : MonoBehaviour
 
     //list of disabled scenes
     public List<string> DisabledScenesList = new List<string>();
+
+    public string[] scenes;
 
     private string lastScene;
 
@@ -25,6 +28,16 @@ public class LevelManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        scenes = new string[SceneManager.sceneCountInBuildSettings];
+        for(int i = 0; i < scenes.Length; i++)
+        {
+            scenes[i] = SceneUtility.GetScenePathByBuildIndex(i);
+
+            //this seems stupid but whatever it works
+            scenes[i] = scenes[i].Replace("Assets/Scenes/", "");
+            scenes[i] = scenes[i].Replace(".unity", "");
         }
 
         //Stops the screen on android/IOS from going to sleep

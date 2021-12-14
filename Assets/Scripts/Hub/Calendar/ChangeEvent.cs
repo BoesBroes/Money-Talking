@@ -5,26 +5,30 @@ using UnityEngine.UI;
 
 public class ChangeEvent : MonoBehaviour
 {
-    public GameObject calendar;
+    public GameObject[] calendarMonth;
 
     private int currentDate;
+    private int currentMonth; //not 'current' month but the one currently showing on screen
 
-    void Start()
+    void Awake()
     {
-        //button = new GameObject[buttonParent.transform.childCount];
-        //for (int i = 0; i < buttonParent.transform.childCount; i++)
-        //{
-        //    button[i] = 
-        //}
+        calendarMonth = new GameObject[3]; //hardcoded for now 
+        currentMonth = 0;
     }
     public void SetDate(int date)
     {
         currentDate = date;
     }
 
+    public void SetMonth(int month)
+    {
+        currentDate = month;
+    }
+
     public void ChangeDate(string setEvent)
     {
-        calendar.SetActive(true);
-        calendar.transform.GetChild(currentDate).gameObject.GetComponent<CalendarDate>().eventText.text = setEvent;
+        calendarMonth[currentMonth].transform.GetChild(currentDate).GetComponent<CalendarDate>().eventText.text = setEvent;
+        //Debug.Log(calendar.GetComponent<Calendar>().currentMonth.name)
+        //calendar.GetComponent<Calendar>().currentMonth.SetActive(true);
     }
 }

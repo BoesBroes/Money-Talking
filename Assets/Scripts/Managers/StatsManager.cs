@@ -65,7 +65,6 @@ public class StatsManager : MonoBehaviour
 
     public void ChangeHappiness(float change)
     {
-        Debug.Log(change);
         if (!stored)
         {
             happinessBar.value += change;
