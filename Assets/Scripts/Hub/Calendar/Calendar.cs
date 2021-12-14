@@ -7,7 +7,6 @@ using System.Linq;
 public class Calendar : MonoBehaviour
 {
     public static Calendar calendar;
-    private Calendar _calendar;
 
     public GameObject calendarParent;
     public GameObject calendarObject;
@@ -32,6 +31,8 @@ public class Calendar : MonoBehaviour
     private float currentTime;
     private int dayCount;
 
+    private GameObject buttons;
+
     private bool inHub;
     private bool ignoreStart;
     void Awake()
@@ -44,29 +45,29 @@ public class Calendar : MonoBehaviour
         }
         else
         {
-            ignoreStart = true;
-            //_calendar = gameObject.AddComponent<Calendar>();
-            Reactivate();
+            Calendar.calendar.calendarParent = calendarParent;
+            Calendar.calendar.date = date;
+            Calendar.calendar.changeEvent = changeEvent;
+            Calendar.calendar.Reactivate();
 
-            Destroy(calendar.gameObject);
-            calendar = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }        
     }
 
     void Start()
     {
-        if(!ignoreStart)
-        {
-            inHub = true;
+        inHub = true;
 
-            storedMonth = new GameObject[2];
-            //no one looks further ahead than 3 months
-            CreateMonth(true);
-            CreateMonth(false);
-            CreateMonth(false);
-            //make more months to plan in advance?
-        }
+        buttons = calendarParent.transform.GetChild(0).gameObject;
+        buttons.SetActive(true);
+
+        storedMonth = new GameObject[2];
+        //no one looks further ahead than 3 months
+        CreateMonth(true);
+        CreateMonth(false);
+        CreateMonth(false);
+        //make more months to plan in advance?
+        
     }
 
     // Update is called once per frame
@@ -172,9 +173,10 @@ public class Calendar : MonoBehaviour
         {
             inHub = false;
             currentMonth.transform.SetParent(transform);
+            buttons.transform.SetParent(transform);
 
             //here is a for loop that should be used in movemonth lmao
-            for(int i = 0; i < storedMonth.Length; i++)
+            for (int i = 0; i < storedMonth.Length; i++)
             {
                 storedMonth[i].transform.SetParent(transform);
             }
@@ -235,12 +237,37 @@ public class Calendar : MonoBehaviour
 
     public void Reactivate()
     {
-        currentMonth.transform.SetParent(currentCalendar.transform, true);
+        currentMonth.transform.SetParent(calendarParent.transform, true);
+        buttons.transform.SetParent(calendarParent.transform, true);
+        buttons.transform.localScale = new Vector3(1, 1, 1);
+
+        buttons.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowNextMonth(); });
+        buttons.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowMonthBack(); });
+
+        for (int i = 0; i < currentMonth.transform.childCount; i++)
+        {
+            currentMonth.transform.GetChild(i).GetComponent<CalendarDate>().eventChanger = changeEvent;
+            Instantiate(date.transform.GetChild(0), currentMonth.transform.GetChild(i));
+            DestroyImmediate(currentMonth.transform.GetChild(i).transform.GetChild(0).gameObject);
+        }
+
+        currentMonth.transform.localScale = new Vector3(1, 1, 1);
 
         //here is a for loop that should be used in movemonth lmao
         for (int i = 0; i < storedMonth.Length; i++)
         {
-            storedMonth[i].transform.SetParent(currentCalendar.transform, true);
+            storedMonth[i].transform.SetParent(calendarParent.transform, true);
+            storedMonth[i].transform.localScale = new Vector3(1, 1, 1);
+
+            //I heard you liked for loops..
+            for (int x = 0; x < storedMonth[i].transform.childCount; x++)
+            {
+                storedMonth[i].transform.GetChild(x).GetComponent<CalendarDate>().eventChanger = changeEvent;
+                Instantiate(date.transform.GetChild(0), storedMonth[i].transform.GetChild(x));
+                Destroy(storedMonth[i].transform.GetChild(x).transform.GetChild(0).gameObject);
+            }
         }
+
+        inHub = true;
     }
 }
