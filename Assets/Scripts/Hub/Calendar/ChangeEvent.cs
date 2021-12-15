@@ -23,7 +23,6 @@ public class ChangeEvent : MonoBehaviour
     public void SetMonth(int month)
     {
         currentMonth = month;
-        Debug.Log("what");
     }
 
     public void ChangeDate(string setEvent)

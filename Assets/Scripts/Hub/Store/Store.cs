@@ -61,6 +61,7 @@ public class Store : MonoBehaviour
                 temporaryVector = new Vector3(changeTV.gameObject.transform.GetChild(0).position.x + hit.collider.GetComponentInParent<Cost>().positionOffset, changeTV.gameObject.transform.GetChild(0).position.y, changeTV.gameObject.transform.GetChild(0).position.z);
                 temporaryObject = Instantiate(temporaryObject, temporaryVector, changeTV.gameObject.transform.GetChild(0).rotation, changeTV.transform);
 
+                temporaryObject.isStatic = false;
                 Destroy(changeTV.transform.GetChild(0).gameObject);
 
                 for (int i = 0; i < storeOptions.transform.childCount; i++)

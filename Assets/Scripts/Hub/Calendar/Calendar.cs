@@ -59,7 +59,7 @@ public class Calendar : MonoBehaviour
         inHub = true;
 
         buttons = calendarParent.transform.GetChild(0).gameObject;
-        buttons.SetActive(true);
+        //buttons.SetActive(true);
 
         storedMonth = new GameObject[2];
         //no one looks further ahead than 3 months
