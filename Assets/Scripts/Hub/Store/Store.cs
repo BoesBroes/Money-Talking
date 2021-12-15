@@ -16,6 +16,7 @@ public class Store : MonoBehaviour
     public GameObject storeOptions;
     private GameObject[] storeType;
 
+    [HideInInspector]
     public GameObject temporaryObject;
     private Vector3 temporaryVector;
     public Camera storeCamera;
