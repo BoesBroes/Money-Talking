@@ -26,6 +26,7 @@ public class FamilyMember : MonoBehaviour
         Idle,
         Talk,
         Cook,
+        ToTheLoo,
         Nothing
     }
 

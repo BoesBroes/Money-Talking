@@ -97,6 +97,11 @@ public class FamilyAI : MonoBehaviour
                     familyMember[i].GetComponent<FamilyMember>().takingAction = true;
                     Cook(familyMember[i]);
                     break;
+
+                case FamilyMember.Action.ToTheLoo:
+                    familyMember[i].GetComponent<FamilyMember>().takingAction = true;
+                    ToiletTime(familyMember[i]);
+                    break;
             }
         }
     }
@@ -115,9 +120,14 @@ public class FamilyAI : MonoBehaviour
                 return FamilyMember.Action.WatchTV;
             }
 
-            if(randomNumber > 50)
+            if(randomNumber > 50 && randomNumber < 75)
             {
                 return FamilyMember.Action.Resting;
+            }
+
+            if(randomNumber > 75)
+            {
+                return FamilyMember.Action.ToTheLoo;
             }
         }
 
@@ -328,6 +338,47 @@ public class FamilyAI : MonoBehaviour
         }
     }
 
+    //if code is the same like this its prolly easier to functionfy it but whatever
+    private void ToiletTime(GameObject member)
+    {
+
+        if (!member.GetComponent<FamilyMember>().moving && !member.GetComponent<FamilyMember>().reachedDestination)
+        {
+            Debug.Log("pee is stored in the balls");
+
+            //if already at location
+
+            if (toilets.Contains(member.GetComponent<FamilyMember>().lastDestination))
+            {
+                Debug.Log("Already there");
+                member.GetComponent<FamilyMember>().reachedDestination = true;
+            }
+
+            else if (toiletCount < toilets.Length)
+            {
+                if (!toilets[toiletCount].GetComponent<Occupation>().occupied)
+                {
+                    member.GetComponent<FamilyMember>().MoveToAction(toilets[toiletCount]);
+                    toilets[toiletCount].GetComponent<Occupation>().occupied = true;
+                    toiletCount = 0;
+                }
+                else
+                {
+                    toiletCount++;
+                }
+            }
+            else
+            {
+                toiletCount = 0;
+
+                //Set the characters current action to idle so it can chose a new action
+                member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
+
+                familyMember[0].GetComponent<FamilyMember>().takingAction = false;
+                Debug.Log("all occupied:(");
+            }
+        }
+    }
     private void ActivityTimer(GameObject member)
     {
         member.GetComponent<FamilyMember>().currentActivityTime += Time.deltaTime;
