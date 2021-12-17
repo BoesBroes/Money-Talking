@@ -61,6 +61,11 @@ public class FamilyMember : MonoBehaviour
     [HideInInspector]
     public GameObject lastDestination;
 
+    private bool avoid = false;
+    private Vector3 lastStoredDestination;
+    private Vector3 storedDestination; // for avoidance
+    private bool hasStarted = false; //avoid stupid errors
+
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
@@ -70,6 +75,7 @@ public class FamilyMember : MonoBehaviour
         agent.enabled = false;
 
         anim = gameObject.GetComponentInChildren<Animator>();
+        StartCoroutine(WaitForFirstCollision());
     }
 
     public void MoveToAction(GameObject destination)
@@ -91,6 +97,7 @@ public class FamilyMember : MonoBehaviour
 
         agent.destination = currentDestination.position;
 
+        StartCoroutine(StoreLastDestination());
         StartCoroutine(WaitUntilReached());
     }
 
@@ -112,4 +119,59 @@ public class FamilyMember : MonoBehaviour
         agent.enabled = false;
         obstacle.enabled = true;
     }
+
+    IEnumerator StoreLastDestination()
+    {
+        if(!avoid)
+        {
+            if(storedDestination == null)
+            {
+                lastStoredDestination = transform.position;
+                storedDestination = lastStoredDestination;
+            }
+            else
+            {
+                storedDestination = lastStoredDestination;
+                lastStoredDestination = transform.position;
+            }
+        }
+        if(!reachedDestination && !avoid)
+        {
+            yield return new WaitForSeconds(Random.Range(2f, 4f));
+            StartCoroutine(StoreLastDestination());
+        }
+    }
+
+    IEnumerator WaitUntilAvoidanceReached()
+    {
+        while (Mathf.Abs((storedDestination.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((storedDestination.x - this.transform.position.x)) > destinationOffset)
+        {
+            yield return new WaitForSeconds(Random.Range(0.5f, 5f));
+        }
+
+        avoid = false;
+
+        agent.destination = currentDestination.position;
+
+        yield return new WaitForSeconds(4f);
+
+        StartCoroutine(StoreLastDestination());
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if(collision.gameObject.tag == "Member"  && !reachedDestination && hasStarted && !avoid)
+        {
+            avoid = true;
+            agent.destination = storedDestination;
+            StartCoroutine(WaitUntilAvoidanceReached());
+        }
+    }
+
+    IEnumerator WaitForFirstCollision()
+    { 
+        yield return new WaitForSeconds(1f);
+        hasStarted = true;
+    }
+
 }

@@ -139,7 +139,20 @@ public class FamilyAI : MonoBehaviour
                 return FamilyMember.Action.Cook;
             }
 
-            if (randomNumber > 50)
+            if (randomNumber > 75)
+            {
+                return FamilyMember.Action.Resting;
+            }
+        }
+
+        if (happiness * 100 > 50 && energy * 100 < 50)
+        {
+            if (randomNumber < 25)
+            {
+                return FamilyMember.Action.Cook;
+            }
+
+            if (randomNumber > 75)
             {
                 return FamilyMember.Action.Resting;
             }
@@ -376,6 +389,25 @@ public class FamilyAI : MonoBehaviour
 
                 familyMember[0].GetComponent<FamilyMember>().takingAction = false;
                 Debug.Log("all occupied:(");
+            }
+        }
+        else if (member.GetComponent<FamilyMember>().reachedDestination)
+        {
+            ActivityTimer(member);
+
+            if (activityDone)
+            {
+                SetModifiers();
+
+                //function this
+                member.GetComponent<FamilyMember>().energy += activityGain * currencyModifier;
+                StatsManager.statsManager.ChangeEnergy(activityGain * (memberCountModifier * currencyModifier));
+
+                //Set the characters current action to idle so it can chose a new action
+                member.GetComponent<FamilyMember>().currentAction = FamilyMember.Action.Idle;
+
+                familyMember[0].GetComponent<FamilyMember>().takingAction = false;
+                Debug.Log("Rested!");
             }
         }
     }
