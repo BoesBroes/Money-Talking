@@ -66,6 +66,9 @@ public class FamilyMember : MonoBehaviour
     private Vector3 storedDestination; // for avoidance
     private bool hasStarted = false; //avoid stupid errors
 
+    [HideInInspector]
+    public float randomWaitTime;
+
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
@@ -146,7 +149,7 @@ public class FamilyMember : MonoBehaviour
     {
         while (Mathf.Abs((storedDestination.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((storedDestination.x - this.transform.position.x)) > destinationOffset)
         {
-            yield return new WaitForSeconds(Random.Range(0.5f, 5f));
+            yield return new WaitForSeconds(randomWaitTime);
         }
 
         avoid = false;
@@ -163,7 +166,18 @@ public class FamilyMember : MonoBehaviour
         if(collision.gameObject.tag == "Member"  && !reachedDestination && hasStarted && !avoid)
         {
             avoid = true;
+            randomWaitTime = Random.Range(1f, 5f);
             agent.destination = storedDestination;
+
+            if(collision.GetComponent<FamilyMember>().randomWaitTime > randomWaitTime)
+            {
+                randomWaitTime = 0.5f;
+            }
+            else
+            {
+                randomWaitTime = 5f;
+            }
+
             StartCoroutine(WaitUntilAvoidanceReached());
         }
     }
