@@ -45,6 +45,10 @@ public class StatsManager : MonoBehaviour
         moneyText.text = ("$" + moneyString);
 
         stored = false;
+
+        //to set colors properly after going back
+        ChangeEnergy(0);
+        ChangeHappiness(0);
     }
 
     public void ChangeEnergy(float change)

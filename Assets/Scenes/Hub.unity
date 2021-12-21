@@ -1749,6 +1749,7 @@ MonoBehaviour:
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
+  randomWaitTime: 0
 --- !u!208 &181137173
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -2632,6 +2633,8 @@ MonoBehaviour:
   showCount: 0
   dayTime: 0.5
   timeModifier: 1
+  stats: {fileID: 110764347}
+  income: 100
 --- !u!4 &291817570
 Transform:
   m_ObjectHideFlags: 0
@@ -12541,6 +12544,7 @@ MonoBehaviour:
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
+  randomWaitTime: 0
 --- !u!208 &1820944923
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -14413,6 +14417,7 @@ MonoBehaviour:
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
+  randomWaitTime: 0
 --- !u!208 &2063087132
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -14726,6 +14731,7 @@ MonoBehaviour:
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
+  randomWaitTime: 0
 --- !u!195 &2125661314
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -16486,9 +16492,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Event
-
-'
+  m_Text: Work
 --- !u!1 &1488615893199276849
 GameObject:
   m_ObjectHideFlags: 0
@@ -16715,8 +16719,8 @@ RectTransform:
   m_Children:
   - {fileID: 2979749344092912115}
   - {fileID: 4427074199254761519}
-  - {fileID: 8314967909054861492}
   - {fileID: 8092738591111279305}
+  - {fileID: 8314967909054861492}
   m_Father: {fileID: 7614999488502020246}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17094,7 +17098,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: pooppiss
+          m_StringArgument: work
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &5404297027573118896
@@ -17404,7 +17408,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: piss
+          m_StringArgument: Event
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &7614999488502020246
@@ -17490,7 +17494,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Yet another event
+  m_Text: 'Delete
 
 '
 --- !u!114 &7897224282758278373
@@ -17581,7 +17585,7 @@ RectTransform:
   m_Children:
   - {fileID: 6916410924098811494}
   m_Father: {fileID: 3031483055840607213}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17631,7 +17635,7 @@ RectTransform:
   m_Children:
   - {fileID: 7982456181640580241}
   m_Father: {fileID: 3031483055840607213}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

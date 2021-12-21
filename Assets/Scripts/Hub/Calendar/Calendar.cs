@@ -35,6 +35,17 @@ public class Calendar : MonoBehaviour
 
     private bool inHub;
     private bool ignoreStart;
+
+    public GameObject stats;
+    public int income = 100;
+
+    private float happinessPenalty = -0.2f; //maybe public for ez balancing but not for now
+    private float energyPenalty = -0.2f;
+    private int monthlyIncome;
+
+    private float energySave;
+    private float happinesSave;
+    private int moneySave;
     void Awake()
     {
         if(calendar == null)
@@ -48,6 +59,7 @@ public class Calendar : MonoBehaviour
             Calendar.calendar.calendarParent = calendarParent;
             Calendar.calendar.date = date;
             Calendar.calendar.changeEvent = changeEvent;
+            Calendar.calendar.stats = stats;
             Calendar.calendar.Reactivate();
 
             Destroy(gameObject);
@@ -142,6 +154,9 @@ public class Calendar : MonoBehaviour
     {
         Destroy(currentMonth.gameObject);
 
+        stats.GetComponent<StatsManager>().ChangeMoney(monthlyIncome);
+        monthlyIncome = 0;
+
         //set new month 
         currentMonth = storedMonth[0];
         currentMonth.transform.GetChild(0).GetComponent<CalendarDate>().eventImage.color = Color.red;
@@ -175,12 +190,26 @@ public class Calendar : MonoBehaviour
             currentMonth.transform.SetParent(transform);
             buttons.transform.SetParent(transform);
 
-            //here is a for loop that should be used in movemonth lmao
+            //here is a for loop that should be used in movemonth lmao (read other comment)
             for (int i = 0; i < storedMonth.Length; i++)
             {
                 storedMonth[i].transform.SetParent(transform);
             }
+
+            //save stats
+            energySave = stats.GetComponent<StatsManager>().energyBar.value;
+            happinesSave = stats.GetComponent<StatsManager>().happinessBar.value;
+            moneySave = stats.GetComponent<StatsManager>().money;
+
             LevelManager.levelManager.ChangeLevel(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text);
+        }
+
+        //earn money here
+        else if(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text == "work")
+        {
+            monthlyIncome += income;
+            stats.GetComponent<StatsManager>().ChangeHappiness(happinessPenalty);
+            stats.GetComponent<StatsManager>().ChangeEnergy(energyPenalty);
         }
     }
 
@@ -237,6 +266,10 @@ public class Calendar : MonoBehaviour
 
     public void Reactivate()
     {
+        stats.GetComponent<StatsManager>().energyBar.value = energySave;
+        stats.GetComponent<StatsManager>().happinessBar.value = happinesSave;
+        stats.GetComponent<StatsManager>().money = moneySave;
+
         currentMonth.transform.SetParent(calendarParent.transform, true);
         buttons.transform.SetParent(calendarParent.transform, true);
         buttons.transform.localScale = new Vector3(1, 1, 1);
