@@ -69,6 +69,11 @@ public class FamilyMember : MonoBehaviour
     [HideInInspector]
     public float randomWaitTime;
 
+    private GameObject collidedObject;
+    private Vector3 startPos;
+    public float waitTime;
+    public int attempts;
+
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
@@ -76,6 +81,8 @@ public class FamilyMember : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         agent.enabled = false;
+
+        startPos = transform.position;
 
         anim = gameObject.GetComponentInChildren<Animator>();
         StartCoroutine(WaitForFirstCollision());
@@ -108,7 +115,10 @@ public class FamilyMember : MonoBehaviour
     {
         while (Mathf.Abs((currentDestination.position.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((currentDestination.position.x - this.transform.position.x)) > destinationOffset)
         {
-            anim.SetInteger("AnimationPar", 1);
+            if(!avoid)
+            {
+                anim.SetInteger("AnimationPar", 1);
+            }
             yield return null;
         }
 
@@ -121,6 +131,8 @@ public class FamilyMember : MonoBehaviour
 
         agent.enabled = false;
         obstacle.enabled = true;
+
+        attempts = 0;
     }
 
     IEnumerator StoreLastDestination()
@@ -140,21 +152,55 @@ public class FamilyMember : MonoBehaviour
         }
         if(!reachedDestination && !avoid)
         {
-            yield return new WaitForSeconds(Random.Range(2f, 4f));
+            yield return new WaitForSeconds(Random.Range(3f, 4f));
             StartCoroutine(StoreLastDestination());
         }
     }
 
-    IEnumerator WaitUntilAvoidanceReached()
+    IEnumerator WaitUntilAvoidanceReached(Vector3 pos)
     {
-        while (Mathf.Abs((storedDestination.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((storedDestination.x - this.transform.position.x)) > destinationOffset)
+        while (Mathf.Abs((pos.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((pos.x - this.transform.position.x)) > destinationOffset)
         {
-            yield return new WaitForSeconds(randomWaitTime);
+            Debug.Log("bla");
+            yield return null;
         }
 
-        avoid = false;
+        agent.enabled = false;
+        obstacle.enabled = true;
 
-        agent.destination = currentDestination.position;
+        anim.SetInteger("AnimationPar", 0);
+        yield return new WaitForSeconds(randomWaitTime);
+
+        obstacle.enabled = false;
+        agent.enabled = true;
+
+        if (randomWaitTime > 1)
+        {
+            while (!collidedObject.GetComponent<FamilyMember>().reachedDestination && waitTime < 10f)
+            {
+                waitTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        if(waitTime >= 10 || attempts == 2)
+        {
+            attempts = 0;
+            avoid = true;
+            anim.SetInteger("AnimationPar", 1);
+            agent.destination = startPos;
+            StartCoroutine(WaitUntilAvoidanceReached(startPos));
+        }
+        else
+        {
+            avoid = false;
+            anim.SetInteger("AnimationPar", 1);
+            agent.destination = currentDestination.position;
+            attempts++;
+        }
+
+        waitTime = 0;
+
 
         yield return new WaitForSeconds(4f);
 
@@ -169,6 +215,8 @@ public class FamilyMember : MonoBehaviour
             randomWaitTime = Random.Range(1f, 5f);
             agent.destination = storedDestination;
 
+            collidedObject = collision.gameObject;
+
             if(collision.GetComponent<FamilyMember>().randomWaitTime > randomWaitTime)
             {
                 randomWaitTime = 0.5f;
@@ -178,7 +226,9 @@ public class FamilyMember : MonoBehaviour
                 randomWaitTime = 5f;
             }
 
-            StartCoroutine(WaitUntilAvoidanceReached());
+            Debug.Log(agent.destination);
+
+            StartCoroutine(WaitUntilAvoidanceReached(agent.destination));
         }
     }
 
