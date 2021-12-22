@@ -488,7 +488,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42922506}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.35, y: 2.9447863, z: -4.12}
+  m_LocalPosition: {x: 2.35, y: 2.9447863, z: -4.38}
   m_LocalScale: {x: 0.1, y: 4, z: 4.2}
   m_Children: []
   m_Father: {fileID: 232147866}
@@ -1560,7 +1560,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168207700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.24719012, y: 2.9447863, z: -6.33}
+  m_LocalPosition: {x: 0.24719012, y: 2.9447863, z: -6.59}
   m_LocalScale: {x: 0.1, y: 4, z: 4.4}
   m_Children: []
   m_Father: {fileID: 232147866}
@@ -1694,7 +1694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181137169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.22, y: 0, z: -2.47}
+  m_LocalPosition: {x: -5.367, y: 0, z: -11.945}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 167660541}
@@ -1711,12 +1711,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 181137169}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.05
+  m_Radius: 0.1
   m_Speed: 1
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1745,11 +1745,13 @@ MonoBehaviour:
   minActivityTime: 2
   randomizedActivityTime: 5
   currentActivityTime: 0
-  destinationOffset: 0.01
+  destinationOffset: 0.25
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
   randomWaitTime: 0
+  waitTime: 0
+  attempts: 0
 --- !u!208 &181137173
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1814,7 +1816,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.15, z: 0.15}
+  m_Size: {x: 0.2, y: 0.15, z: 0.2}
   m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!54 &181137177
 Rigidbody:
@@ -1829,7 +1831,7 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
 --- !u!1 &184703863
@@ -11156,7 +11158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c001a3fcfc5eb1743b5d94248289ff94, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.376
+      value: -5.7660003
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c001a3fcfc5eb1743b5d94248289ff94, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12489,7 +12491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820944919}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: -8.9}
+  m_LocalPosition: {x: -0.63, y: 0, z: -8.9}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 214461068}
@@ -12506,12 +12508,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1820944919}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.05
+  m_Radius: 0.1
   m_Speed: 1
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -12540,11 +12542,13 @@ MonoBehaviour:
   minActivityTime: 2
   randomizedActivityTime: 5
   currentActivityTime: 0
-  destinationOffset: 0.01
+  destinationOffset: 0.25
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
   randomWaitTime: 0
+  waitTime: 0
+  attempts: 0
 --- !u!208 &1820944923
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -12609,7 +12613,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.15, z: 0.15}
+  m_Size: {x: 0.2, y: 0.15, z: 0.2}
   m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!54 &1820944927
 Rigidbody:
@@ -12624,7 +12628,7 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
 --- !u!1 &1823393348
@@ -12654,7 +12658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823393348}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4.642, y: 4.678, z: -4.12}
+  m_LocalPosition: {x: 4.642, y: 4.678, z: -4.38}
   m_LocalScale: {x: 0.1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 232147866}
@@ -13504,7 +13508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981829997}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2471901, y: 4.691, z: -3.561}
+  m_LocalPosition: {x: 0.2471901, y: 4.691, z: -3.66}
   m_LocalScale: {x: 0.1, y: 0.5, z: 1.44}
   m_Children: []
   m_Father: {fileID: 232147866}
@@ -14362,7 +14366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063087128}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.06, y: 0, z: -0.28}
+  m_LocalPosition: {x: -1.02, y: 0, z: 1.193}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 156534117}
@@ -14379,12 +14383,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 2063087128}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.05
+  m_Radius: 0.1
   m_Speed: 1
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -14413,11 +14417,13 @@ MonoBehaviour:
   minActivityTime: 2
   randomizedActivityTime: 5
   currentActivityTime: 0
-  destinationOffset: 0.01
+  destinationOffset: 0.25
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
   randomWaitTime: 0
+  waitTime: 0
+  attempts: 0
 --- !u!208 &2063087132
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -14482,7 +14488,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.15, z: 0.15}
+  m_Size: {x: 0.2, y: 0.15, z: 0.2}
   m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!54 &2063087136
 Rigidbody:
@@ -14497,7 +14503,7 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
 --- !u!1 &2073605442
@@ -14721,17 +14727,19 @@ MonoBehaviour:
   energy: 0
   happiness: 0
   currentMood: 0
-  currentAction: 3
+  currentAction: 6
   takingAction: 0
   maxActivityTime: 20
   minActivityTime: 2
   randomizedActivityTime: 5
   currentActivityTime: 0
-  destinationOffset: 0.01
+  destinationOffset: 0.25
   reachedDestination: 0
   moving: 0
   lastDestination: {fileID: 0}
   randomWaitTime: 0
+  waitTime: 0
+  attempts: 0
 --- !u!195 &2125661314
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14741,12 +14749,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1147751527390733}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.05
+  m_Radius: 0.1
   m_Speed: 1
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -15388,7 +15396,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.15, z: 0.15}
+  m_Size: {x: 0.2, y: 0.15, z: 0.2}
   m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!54 &1147751527390736
 Rigidbody:
@@ -15403,7 +15411,7 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
 --- !u!1 &1158020542320481
@@ -15858,7 +15866,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147751527390733}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.63, y: 0, z: -3.45}
+  m_LocalPosition: {x: -5.67, y: 0, z: -3.29}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4666559099158199}
