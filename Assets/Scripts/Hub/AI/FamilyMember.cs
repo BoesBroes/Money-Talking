@@ -161,7 +161,6 @@ public class FamilyMember : MonoBehaviour
     {
         while (Mathf.Abs((pos.z - this.transform.position.z)) > destinationOffset || Mathf.Abs((pos.x - this.transform.position.x)) > destinationOffset)
         {
-            Debug.Log("bla");
             yield return null;
         }
 

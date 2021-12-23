@@ -923,7 +923,7 @@ MonoBehaviour:
   energyFill: {fileID: 874263754}
   happinessFill: {fileID: 2029452690}
   family: {fileID: 846442569}
-  money: 1000
+  money: 100
   moneyText: {fileID: 1602431731}
   calendar: {fileID: 0}
 --- !u!224 &110764349
@@ -2626,6 +2626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c37788952e4794bbe9d065364e3644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 1272299970}
   calendarParent: {fileID: 1906618361}
   calendarObject: {fileID: 2613625679119319208, guid: 5ebcef2a84f03b24da6040ca74d1abbd, type: 3}
   date: {fileID: 2274773151290944557}
@@ -2633,7 +2634,7 @@ MonoBehaviour:
   currentMonth: {fileID: 0}
   storedMonth: []
   showCount: 0
-  dayTime: 0.5
+  dayTime: 2
   timeModifier: 1
   stats: {fileID: 110764347}
   income: 100
@@ -14727,7 +14728,7 @@ MonoBehaviour:
   energy: 0
   happiness: 0
   currentMood: 0
-  currentAction: 6
+  currentAction: 3
   takingAction: 0
   maxActivityTime: 20
   minActivityTime: 2

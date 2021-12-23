@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Events;
 
 public class Calendar : MonoBehaviour
 {
     public static Calendar calendar;
+
+    public GameObject menu;
 
     public GameObject calendarParent;
     public GameObject calendarObject;
@@ -39,13 +42,16 @@ public class Calendar : MonoBehaviour
     public GameObject stats;
     public int income = 100;
 
-    private float happinessPenalty = -0.2f; //maybe public for ez balancing but not for now
-    private float energyPenalty = -0.2f;
+    private float happinessPenalty = -0.05f; //maybe public for ez balancing but not for now (also check if this actually affects stats on a personal level if we would continue this project)
+    private float energyPenalty = -0.05f;
     private int monthlyIncome;
 
     private float energySave;
     private float happinesSave;
     private int moneySave;
+
+    UnityAction action;
+
     void Awake()
     {
         if(calendar == null)
@@ -60,6 +66,7 @@ public class Calendar : MonoBehaviour
             Calendar.calendar.date = date;
             Calendar.calendar.changeEvent = changeEvent;
             Calendar.calendar.stats = stats;
+            Calendar.calendar.menu = menu;
             Calendar.calendar.Reactivate();
 
             Destroy(gameObject);
@@ -70,7 +77,10 @@ public class Calendar : MonoBehaviour
     {
         inHub = true;
 
-        buttons = calendarParent.transform.GetChild(0).gameObject;
+        if(!buttons)
+        {
+            buttons = calendarParent.transform.GetChild(0).gameObject;
+        }
         //buttons.SetActive(true);
 
         storedMonth = new GameObject[2];
@@ -201,6 +211,14 @@ public class Calendar : MonoBehaviour
             happinesSave = stats.GetComponent<StatsManager>().happinessBar.value;
             moneySave = stats.GetComponent<StatsManager>().money;
 
+
+            GameObject tempPanel = menu.GetComponent<Menu>().allPanels[0];
+            Menu tempMenu = menu.GetComponent<Menu>();
+
+            buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveListener(delegate { tempMenu.SwitchPanel(tempPanel); });
+
+            buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+
             LevelManager.levelManager.ChangeLevel(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text);
         }
 
@@ -273,6 +291,16 @@ public class Calendar : MonoBehaviour
         currentMonth.transform.SetParent(calendarParent.transform, true);
         buttons.transform.SetParent(calendarParent.transform, true);
         buttons.transform.localScale = new Vector3(1, 1, 1);
+
+        GameObject tempPanel = menu.GetComponent<Menu>().allPanels[0];
+        Menu tempMenu = menu.GetComponent<Menu>();
+
+        Debug.Log(tempPanel.name);
+
+
+        buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        buttons.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { tempMenu.SwitchPanel(tempPanel); });
+
 
         buttons.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowNextMonth(); });
         buttons.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowMonthBack(); });
