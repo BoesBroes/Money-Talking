@@ -77,7 +77,7 @@ public class Calendar : MonoBehaviour
     {
         inHub = true;
 
-        if(!buttons)
+        if(buttons == null)
         {
             buttons = calendarParent.transform.GetChild(0).gameObject;
         }
@@ -215,9 +215,7 @@ public class Calendar : MonoBehaviour
             GameObject tempPanel = menu.GetComponent<Menu>().allPanels[0];
             Menu tempMenu = menu.GetComponent<Menu>();
 
-            buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveListener(delegate { tempMenu.SwitchPanel(tempPanel); });
-
-            buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+            Destroy(buttons.transform.GetChild(0).GetComponent<Button>());
 
             LevelManager.levelManager.ChangeLevel(currentMonth.transform.GetChild(dayCount).GetComponent<CalendarDate>().eventText.text);
         }
@@ -298,7 +296,7 @@ public class Calendar : MonoBehaviour
         Debug.Log(tempPanel.name);
 
 
-        buttons.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        buttons.transform.GetChild(0).gameObject.AddComponent<Button>();
         buttons.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { tempMenu.SwitchPanel(tempPanel); });
 
 
