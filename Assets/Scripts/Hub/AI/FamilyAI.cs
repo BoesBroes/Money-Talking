@@ -28,8 +28,8 @@ public class FamilyAI : MonoBehaviour
     private float energy;
 
     //could make these public for ez changes perhaps
-    private float activityGain = .2f;
-    private float activityDrain = -.2f; //drain should not be affected by money?
+    private float activityGain = .25f;
+    private float activityDrain = -.25f; //drain should not be affected by money?
 
     private float memberCountModifier;
     private float currencyModifier = 1;
@@ -400,7 +400,9 @@ public class FamilyAI : MonoBehaviour
                 SetModifiers();
 
                 //function this
+                Debug.Log(member.GetComponent<FamilyMember>().energy);
                 member.GetComponent<FamilyMember>().energy += activityGain * currencyModifier;
+                Debug.Log(member.GetComponent<FamilyMember>().energy);
                 StatsManager.statsManager.ChangeEnergy(activityGain * (memberCountModifier * currencyModifier));
 
                 //Set the characters current action to idle so it can chose a new action
