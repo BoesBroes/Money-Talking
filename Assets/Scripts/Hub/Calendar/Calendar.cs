@@ -309,7 +309,9 @@ public class Calendar : MonoBehaviour
 
         changeEvent.GetComponent<ChangeEvent>().calendarMonth[0] = currentMonth;
 
-        for (int i = 0; i < currentMonth.transform.childCount; i++)
+        int tempInt = currentMonth.transform.childCount;
+
+        for (int i = 0; i < tempInt; i++)
         {
             temporaryObject[i] = Instantiate(date, currentMonth.transform.GetChild(i));
             temporaryObject[i].SetActive(true);
@@ -324,9 +326,6 @@ public class Calendar : MonoBehaviour
             temporaryObject[i].transform.SetParent(currentMonth.transform, true);
             temporaryObject[i].transform.localScale = new Vector3(1, 1, 1);
             currentMonth.transform.localScale = new Vector3(1, 1, 1);
-
-            
-
         }
 
         //currentMonth.transform.localScale = new Vector3(1, 1, 1);
@@ -340,11 +339,21 @@ public class Calendar : MonoBehaviour
             changeEvent.GetComponent<ChangeEvent>().calendarMonth[i + 1] = storedMonth[i];
 
             //I heard you liked for loops..
-            for (int x = 0; x < storedMonth[i].transform.childCount; x++)
+            for (int x = 0; x < tempInt; x++)
             {
-                storedMonth[i].transform.GetChild(x).GetComponent<CalendarDate>().eventChanger = changeEvent;
-                Instantiate(date.transform.GetChild(0), storedMonth[i].transform.GetChild(x));
-                Destroy(storedMonth[i].transform.GetChild(x).transform.GetChild(0).gameObject);
+                temporaryObject[x] = Instantiate(date, storedMonth[i].transform.GetChild(x));
+                temporaryObject[x].SetActive(true);
+                temporaryObject[x].GetComponent<CalendarDate>().date = x;
+                temporaryObject[x].GetComponent<CalendarDate>().eventChanger = changeEvent;
+
+
+                temporaryObject[x].GetComponent<CalendarDate>().eventText.text = storedMonth[i].transform.GetChild(x).GetComponent<CalendarDate>().eventText.text;
+
+                Destroy(storedMonth[i].transform.GetChild(x).gameObject);
+
+                temporaryObject[x].transform.SetParent(storedMonth[i].transform, true);
+                temporaryObject[x].transform.localScale = new Vector3(1, 1, 1);
+                storedMonth[i].transform.localScale = new Vector3(1, 1, 1);
             }
         }
 
