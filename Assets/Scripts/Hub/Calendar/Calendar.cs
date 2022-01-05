@@ -303,20 +303,41 @@ public class Calendar : MonoBehaviour
         buttons.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowNextMonth(); });
         buttons.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { calendar.ShowMonthBack(); });
 
+        temporaryObject = new GameObject[currentMonth.transform.childCount];
+
+        changeEvent.GetComponent<ChangeEvent>().calendarMonth = new GameObject[3];
+
+        changeEvent.GetComponent<ChangeEvent>().calendarMonth[0] = currentMonth;
+
         for (int i = 0; i < currentMonth.transform.childCount; i++)
         {
-            currentMonth.transform.GetChild(i).GetComponent<CalendarDate>().eventChanger = changeEvent;
-            Instantiate(date.transform.GetChild(0), currentMonth.transform.GetChild(i));
-            DestroyImmediate(currentMonth.transform.GetChild(i).transform.GetChild(0).gameObject);
+            temporaryObject[i] = Instantiate(date, currentMonth.transform.GetChild(i));
+            temporaryObject[i].SetActive(true);
+            temporaryObject[i].GetComponent<CalendarDate>().date = i;
+            temporaryObject[i].GetComponent<CalendarDate>().eventChanger = changeEvent;
+
+
+            temporaryObject[i].GetComponent<CalendarDate>().eventText.text = currentMonth.transform.GetChild(i).GetComponent<CalendarDate>().eventText.text;
+
+            Destroy(currentMonth.transform.GetChild(i).gameObject);
+
+            temporaryObject[i].transform.SetParent(currentMonth.transform, true);
+            temporaryObject[i].transform.localScale = new Vector3(1, 1, 1);
+            currentMonth.transform.localScale = new Vector3(1, 1, 1);
+
+            
+
         }
 
-        currentMonth.transform.localScale = new Vector3(1, 1, 1);
+        //currentMonth.transform.localScale = new Vector3(1, 1, 1);
 
         //here is a for loop that should be used in movemonth lmao
         for (int i = 0; i < storedMonth.Length; i++)
         {
             storedMonth[i].transform.SetParent(calendarParent.transform, true);
             storedMonth[i].transform.localScale = new Vector3(1, 1, 1);
+
+            changeEvent.GetComponent<ChangeEvent>().calendarMonth[i + 1] = storedMonth[i];
 
             //I heard you liked for loops..
             for (int x = 0; x < storedMonth[i].transform.childCount; x++)

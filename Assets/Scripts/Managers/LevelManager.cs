@@ -27,10 +27,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            //just a stupid quick workaround to get this thing to work!
-            Destroy(levelManager);
-            levelManager = this;
-            DontDestroyOnLoad(this);
+            Destroy(this);
         }
 
         scenes = new string[SceneManager.sceneCountInBuildSettings];

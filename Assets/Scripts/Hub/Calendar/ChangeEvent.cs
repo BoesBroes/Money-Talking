@@ -12,7 +12,10 @@ public class ChangeEvent : MonoBehaviour
 
     void Awake()
     {
-        calendarMonth = new GameObject[3]; //hardcoded for now 
+        if(calendarMonth.Length <3)
+        {
+            calendarMonth = new GameObject[3]; //hardcoded for now 
+        }
         currentMonth = 0;
     }
     public void SetDate(int date)
