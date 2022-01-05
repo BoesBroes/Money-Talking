@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: c7b77674302b14445bdbb261de36feee
+  - enabled: 1
+    path: Assets/Scenes/Budgeting.unity
+    guid: e04681c9e18fa7742946522011aa1b0b
+  - enabled: 1
+    path: Assets/Scenes/Happiness.unity
+    guid: f962831f948878944a3f9852607f45b5
+  - enabled: 1
+    path: Assets/Scenes/Play.unity
+    guid: 8f9ffe75f413c3743b242337bf8bae09
+  - enabled: 1
+    path: Assets/Scenes/Travelling.unity
+    guid: 24a51aa1143fc7145b6ed6070e9a92d1
   m_configObjects: {}
